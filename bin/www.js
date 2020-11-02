@@ -6,6 +6,7 @@
 
 const app = require('../app');
 const http = require('http');
+const io = require('../services/socketio');
 
 /**
  * Get port from environment and store in Express.
@@ -19,6 +20,10 @@ app.set('port', port);
  */
 
 const server = http.createServer(app);
+
+io.attach(server);
+
+
 
 /**
  * Listen on provided port, on all network interfaces.
