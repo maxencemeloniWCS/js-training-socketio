@@ -13,7 +13,14 @@ app.get('/compteur', (req, res) => {
     res.sendFile(`${__dirname}/public/compteur.html`);
 });
 let users = {};
+let count = 0;
 io.on('connect', socket => {
+
+    socket.on('addCount', () => {
+        count++;
+        io.emit('newCount', count);
+    })
+
     socket.on('username', username => {
         users[socket.id] = username;
         socket.broadcast.emit('broadcast', username + ' is now connected');
