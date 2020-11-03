@@ -1,10 +1,25 @@
 <html>
 <head>
 
+<style>
+    .messages {
+        width: 500px;
+        height: 300px;
+        overflow-y: scroll;
+        border: 1px solid #ddd;
+    }
+</style>
 </head>
 <body>
 
-<script src="../node_modules/socket.io-client/dist/socket.io.js"></script>
-<script src="message.js"></script>
+<div class="messages" id="messages"></div>
+<form id="form">
+    <input type="text" name="message" id="message" />
+    <input type="submit" value="Envoyer" />
+</form>
+<hr />
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/message.js"></script>
 </body>
 </html>
