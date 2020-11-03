@@ -1,25 +1,23 @@
 <html>
 <head>
-
-<style>
-    .messages {
-        width: 500px;
-        height: 300px;
-        overflow-y: scroll;
-        border: 1px solid #ddd;
-    }
-</style>
+    <link href="/style.css" rel="stylesheet"/>
 </head>
 <body>
-
-<div class="messages" id="messages"></div>
-<form id="form">
-    <input type="text" name="message" id="message" />
-    <input type="submit" value="Envoyer" />
-</form>
-<hr />
-
+<div id="login">
+    <form id="login-form">
+        <p><label for="username">Username :</label><input type="text" id="username"/></p>
+        <p><input type="submit" value="enter"/></p>
+    </form>
+</div>
+<div id="chat">
+    <div class="messages" id="messages"></div>
+    <form id="form">
+        <input type="text" name="message" id="message"/>
+        <input type="submit" value="Envoyer"/>
+    </form>
+</div>
 <script src="/socket.io/socket.io.js"></script>
 <script src="/message.js"></script>
+<script src="/login.js"></script>
 </body>
 </html>

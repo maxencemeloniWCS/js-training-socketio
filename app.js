@@ -8,17 +8,19 @@ const io = socket(server);
 app.use(express.static('public'));
 app.get('/', (req, res) => {
     res.sendFile(`${__dirname}/public/index.html`);
-})
-
+});
+let users = {};
 io.on('connect', socket => {
-   console.log('User connected');
-
+    socket.on('username', username => {
+        users[socket.id] = username;
+        socket.broadcast.emit('broadcast', username + ' is now connected');
+    });
     socket.on('message', message => {
-        console.log(message);
-        io.emit('message', message)
+        socket.broadcast.emit('message', {username: users[socket.id], message});
     })
+
     socket.on('disconnect', () => {
-        console.log('User disconnected')
+        socket.broadcast.emit('broadcast', users[socket.id] + ' is now disconnected');
     });
 });
 

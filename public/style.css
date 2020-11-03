@@ -1,0 +1,42 @@
+* {
+    box-sizing: border-box;
+}
+
+#login {
+    display:block;
+    width: 100%;
+    height: auto;
+}
+#chat {
+    display:none;
+    width: 100%;
+    height: auto;
+}
+
+.messages {
+    width: 400px;
+    height: 300px;
+    overflow-y: scroll;
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+.messages p {
+    margin-bottom: 10px;
+    width: 100%;
+    text-align: left;
+}
+
+
+.messages p.message {
+
+}
+
+.messages p.me {
+    text-align: right;
+}
+
+.broadcast {
+    font-size: 10px;
+    font-style: italic;
+}
