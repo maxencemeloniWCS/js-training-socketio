@@ -9,6 +9,9 @@ app.use(express.static('public'));
 app.get('/', (req, res) => {
     res.sendFile(`${__dirname}/public/index.html`);
 });
+app.get('/compteur', (req, res) => {
+    res.sendFile(`${__dirname}/public/compteur.html`);
+});
 let users = {};
 io.on('connect', socket => {
     socket.on('username', username => {
@@ -21,8 +24,10 @@ io.on('connect', socket => {
     })
 
     socket.on('disconnect', () => {
-        delete users[socket.id];
-        socket.broadcast.emit('broadcast', users[socket.id] + ' is now disconnected');
+        if (users[socket.id] !== undefined) {
+            socket.broadcast.emit('broadcast', users[socket.id] + ' is now disconnected');
+            delete users[socket.id];
+        }
         socket.broadcast.emit('users', users);
     });
 });

@@ -5,10 +5,10 @@ const messages = document.querySelector('#messages');
 const usersList = document.querySelector('#users');
 function writeMessage(message, type = 'message') {
     let p = document.createElement('p');
-    if (type === 'broadcast') {
-        p.innerText = message;
+    if (type === 'message') {
+        p.innerHTML = `<span class="user">${message.username} : </span><span>${message.message}</span>`;
     } else {
-        p.innerText = `user: ${message.username} - message: ${message.message}`;
+        p.innerText = message;
     }
     p.classList.add(type);
     messages.appendChild(p);
@@ -20,7 +20,7 @@ messageForm.addEventListener('submit', e => {
    const message = messageInput.value;
    if (message !== '') {
        socket.emit('message', message);
-       writeMessage({username: 'me', message}, 'me');
+       writeMessage(message, 'me');
        messageInput.value = '';
        messageInput.focus();
    }
@@ -28,9 +28,7 @@ messageForm.addEventListener('submit', e => {
 
 socket.on('message', writeMessage);
 
-socket.on('broadcast', broadcast => {
-    writeMessage(broadcast, 'broadcast');
-});
+socket.on('broadcast', broadcast => writeMessage(broadcast, 'broadcast'));
 
 socket.on('users', users => {
     usersList.innerHTML = '';
