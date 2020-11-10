@@ -16,13 +16,19 @@ form.addEventListener('submit', (e) => {
     form.classList.add('hidden');
 })
 
-socket.on('info', data => {
-    if (data.type === 'users-list') {
+socket.on('info', ({type, content}) => {
+    if (type === 'users-list') {
         usersList.innerText = '';
-        data.content.forEach(elem => {
+        content.forEach(elem => {
             let li = document.createElement('li');
             li.innerText = elem;
             usersList.appendChild(li);
         });
+    } else if (type === 'login' || type === 'logout') {
+        let p = document.createElement('p');
+        p.classList.add('user', type);
+        let deco = type === 'login' ? '':'dé';
+        p.innerText = `${content} vient juste de se ${deco}connecter !`;
+        messagesList.appendChild(p);
     }
 })

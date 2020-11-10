@@ -26,15 +26,15 @@ io.on('connection', client => {
     client.on('user', username => {
         users[client.id] = username;
         console.log({type: 'user', id: client.id, username});
-        let data = {type: 'users-list', content: formatList(users)};
         client.broadcast.emit('info', {type: 'login', content: username});
-        io.emit('info', data);
+        io.emit('info', {type: 'users-list', content: formatList(users)});
     });
 
     client.on('disconnect', () => {
+        let username = users[client.id];
         console.log({type: 'disconnection', id: client.id, username: users[client.id]});
-        io.emit('info', {type: 'logout', content: users[client.id]});
-            delete users[client.id];
+        io.emit('info', {type: 'logout', content: username});
+        delete users[client.id];
         io.emit('info', {type: 'users-list', content: formatList(users)});
     });
 
