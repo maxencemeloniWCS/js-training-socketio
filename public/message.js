@@ -14,7 +14,22 @@ form.addEventListener('submit', (e) => {
     userInput.value = '';
     screenConnected.classList.remove('hidden');
     form.classList.add('hidden');
-})
+});
+
+messageInput.focus();
+messageForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    let message = messageInput.value;
+    socket.emit('message', message)
+    writeMessage('me', {message});
+    messageInput.value = '';
+    messageInput.focus();
+    messagesList.scrollTop = messagesList.scrollHeight;
+});
+
+socket.on('message', data => {
+    writeMessage('message', data);
+});
 
 socket.on('info', ({type, content}) => {
     if (type === 'users-list') {
@@ -32,3 +47,16 @@ socket.on('info', ({type, content}) => {
         messagesList.appendChild(p);
     }
 })
+
+function writeMessage(type, data) {
+    if(type === 'message') {
+        let p = document.createElement('p');
+        p.classList.add('username');
+        p.innerText = data.user + ':';
+        messagesList.appendChild(p);
+    }
+    let p = document.createElement('p');
+    p.classList.add(type);
+    p.innerText = data.message;
+    messagesList.appendChild(p);
+}

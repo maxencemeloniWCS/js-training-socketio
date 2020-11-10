@@ -18,6 +18,7 @@ app.use(express.static('public'));
 app.get('/', (req, res) => {
     res.sendFile(`${__dirname}/public/index.html`);
 });
+
 let users = {};
 
 io.on('connection', client => {
@@ -35,6 +36,10 @@ io.on('connection', client => {
             io.emit('info', {type: 'users-list', content: formatList(users)});
         }
     });
+
+    client.on('message', message => {
+        client.broadcast.emit('message', {message, user: users[client.id]});
+    })
 
 });
 
